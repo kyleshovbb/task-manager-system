@@ -11,4 +11,10 @@ const save = (userData) => {
   return newUser;
 };
 
-module.exports = { getAll, save, findById };
+const update = async (userId, userData) => {
+  const user = await findById(userId);
+  user.update(userData);
+  return user;
+};
+
+module.exports = { getAll, save, findById, update };

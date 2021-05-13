@@ -9,14 +9,20 @@ router.route('/').get(async (req, res, next) => {
 });
 
 router.route('/').post(async (req, res, next) => {
-  const useUser = await usersService.save(req.body);
-  res.status(201).json(useUser.toResponse());
+  const newUser = await usersService.save(req.body);
+  res.status(201).json(newUser.toResponse());
   next();
 });
 
 router.route('/:userId').get(async (req, res, next) => {
-  const useUser = await usersService.findById(req.params.userId);
-  res.status(200).json(useUser.toResponse());
+  const user = await usersService.findById(req.params.userId);
+  res.status(200).json(user.toResponse());
+  next();
+});
+
+router.route('/:userId').put(async (req, res, next) => {
+  const user = await usersService.update(req.params.userId, req.body);
+  res.status(200).json(user.toResponse());
   next();
 });
 
