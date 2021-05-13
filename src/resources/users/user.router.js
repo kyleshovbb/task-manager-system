@@ -14,4 +14,10 @@ router.route('/').post(async (req, res, next) => {
   next();
 });
 
+router.route('/:userId').get(async (req, res, next) => {
+  const useUser = await usersService.findById(req.params.userId);
+  res.status(200).json(useUser.toResponse());
+  next();
+});
+
 module.exports = router;

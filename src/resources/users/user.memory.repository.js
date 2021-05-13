@@ -3,15 +3,15 @@ class UsersRepository {
     this.users = [];
   }
 
-  getAll() {
+  async getAll() {
     return this.users;
   }
 
-  findById(id) {
+  async findById(id) {
     return this.users.find((user) => user.id === id);
   }
 
-  save(user) {
+  async save(user) {
     return this.users.push(user);
   }
 }
