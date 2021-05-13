@@ -1,6 +1,19 @@
-const getAll = async () => {
-  // TODO: mock implementation. should be replaced during task development
-  return [];
-};
+class UsersRepository {
+  constructor() {
+    this.users = [];
+  }
 
-module.exports = { getAll };
+  getAll() {
+    return this.users;
+  }
+
+  findById(id) {
+    return this.users.find((user) => user.id === id);
+  }
+
+  save(user) {
+    return this.users.push(user);
+  }
+}
+
+module.exports = new UsersRepository();
