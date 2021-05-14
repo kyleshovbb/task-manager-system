@@ -14,6 +14,10 @@ class UsersRepository {
   async save(user) {
     return this.users.push(user);
   }
+
+  async remove(id) {
+    this.users = this.users.filter((user) => user.id !== id);
+  }
 }
 
 module.exports = new UsersRepository();
