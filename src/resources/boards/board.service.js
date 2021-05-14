@@ -1,11 +1,15 @@
 const BoardModel = require('./board.model');
 const boardsRepo = require('./board.memory.repository');
+const tasksService = require('../tasks/task.service');
 
 const getAll = () => boardsRepo.getAll();
 
 const findById = (id) => boardsRepo.findById(id);
 
-const remove = (boardId) => boardsRepo.remove(boardId);
+const remove = async (boardId) => {
+  await boardsRepo.remove(boardId);
+  tasksService.removeByBoardId(boardId);
+};
 
 const save = (boardData) => {
   const newBoard = new BoardModel(boardData);
