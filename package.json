@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@types/swagger-ui-express": "^4.1.2",
+    "@types/uuid": "^8.3.0",
     "@types/yamljs": "^0.2.31",
     "cross-env": "7.0.3",
     "dotenv": "9.0.0",
@@ -63,7 +64,7 @@
     "debug": "4.3.1",
     "dirty-chai": "2.0.1",
     "eslint": "7.2.0",
-    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",

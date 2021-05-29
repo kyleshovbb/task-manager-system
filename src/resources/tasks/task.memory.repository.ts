@@ -32,6 +32,6 @@ class TasksRepository {
   }
 }
 
-const tasksRepository =  new TasksRepository()
+const tasksRepository = new TasksRepository();
 
 export default tasksRepository;

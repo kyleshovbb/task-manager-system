@@ -1,6 +1,6 @@
 import BoardModel from './board.model';
-import boardsRepo from './board.memory.repository';
 import tasksService from '../tasks/task.service';
+import boardsRepo from './board.memory.repository';
 
 export const getAll = () => boardsRepo.getAll();
 

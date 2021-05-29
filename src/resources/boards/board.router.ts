@@ -1,8 +1,8 @@
-import {Router} from 'express'
-import taskRouter from '../tasks/task.router'
-import {getAll, save, findById, update, remove} from './board.service'
+import { Router } from 'express';
+import taskRouter from '../tasks/task.router';
+import { getAll, save, findById, update, remove } from './board.service';
 
-const router = Router()
+const router = Router();
 
 router.route('/').get(async (req, res, next) => {
   try {

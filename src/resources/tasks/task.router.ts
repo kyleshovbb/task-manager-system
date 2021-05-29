@@ -1,7 +1,7 @@
-import {Router} from 'express';
-import {getAll, save, findById, update, removeByTaskId} from './task.service';
+import { Router } from 'express';
+import { getAll, save, findById, update, removeByTaskId } from './task.service';
 
-const router = Router({ mergeParams: true })
+const router = Router({ mergeParams: true });
 
 router.route('/').get(async (req, res, next) => {
   try {
