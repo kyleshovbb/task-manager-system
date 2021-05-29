@@ -20,4 +20,6 @@ class UsersRepository {
   }
 }
 
-module.exports = new UsersRepository();
+const usersRepository = new UsersRepository()
+
+export default usersRepository;

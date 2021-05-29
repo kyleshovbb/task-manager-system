@@ -1,8 +1,8 @@
-const uuid = require('uuid');
+import {v4} from 'uuid';
 
-class Board {
+export default class Board {
   constructor({
-    id = uuid.v4(),
+    id = v4(),
     title = 'TEST_TASK_TITLE',
     order = 0,
     userId = null,
@@ -49,5 +49,3 @@ class Board {
     this.description = description;
   }
 }
-
-module.exports = Board;

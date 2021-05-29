@@ -32,4 +32,6 @@ class TasksRepository {
   }
 }
 
-module.exports = new TasksRepository();
+const tasksRepository =  new TasksRepository()
+
+export default tasksRepository;

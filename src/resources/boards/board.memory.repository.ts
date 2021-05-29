@@ -20,4 +20,4 @@ class BoardsRepository {
   }
 }
 
-module.exports = new BoardsRepository();
+export default new BoardsRepository();

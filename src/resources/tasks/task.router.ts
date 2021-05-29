@@ -1,9 +1,11 @@
-const router = require('express').Router({ mergeParams: true });
-const tasksService = require('./task.service');
+import {Router} from 'express';
+import {getAll, save, findById, update, removeByTaskId} from './task.service';
+
+const router = Router({ mergeParams: true })
 
 router.route('/').get(async (req, res, next) => {
   try {
-    const tasks = await tasksService.getAll();
+    const tasks = await getAll();
     res.json(tasks.map((task) => task.toResponse()));
   } catch (err) {
     res.status(404);
@@ -13,7 +15,7 @@ router.route('/').get(async (req, res, next) => {
 
 router.route('/').post(async (req, res, next) => {
   try {
-    const newTask = await tasksService.save(req.body, req.params.boardId);
+    const newTask = await save(req.body, req.params.boardId);
     res.status(201).json(newTask.toResponse());
   } catch (err) {
     res.status(404);
@@ -23,7 +25,7 @@ router.route('/').post(async (req, res, next) => {
 
 router.route('/:taskId').get(async (req, res, next) => {
   try {
-    const task = await tasksService.findById(req.params.taskId);
+    const task = await findById(req.params.taskId);
     res.json(task.toResponse());
   } catch (err) {
     res.status(404);
@@ -33,7 +35,7 @@ router.route('/:taskId').get(async (req, res, next) => {
 
 router.route('/:taskId').put(async (req, res, next) => {
   try {
-    const task = await tasksService.update(req.params.taskId, req.body);
+    const task = await update(req.params.taskId, req.body);
     res.json(task.toResponse());
   } catch (err) {
     res.status(404);
@@ -43,7 +45,7 @@ router.route('/:taskId').put(async (req, res, next) => {
 
 router.route('/:taskId').delete(async (req, res, next) => {
   try {
-    await tasksService.removeByTaskId(req.params.taskId);
+    await removeByTaskId(req.params.taskId);
     res.json();
   } catch (err) {
     res.status(404);
@@ -51,4 +53,4 @@ router.route('/:taskId').delete(async (req, res, next) => {
   next();
 });
 
-module.exports = router;
+export default router;
