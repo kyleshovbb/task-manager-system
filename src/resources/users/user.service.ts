@@ -1,7 +1,7 @@
 import UserModel from './user.model';
 import usersRepo from './user.memory.repository';
-import { UserRequest } from './user.types';
 import { unassignUsersById } from '../tasks/task.service';
+import { CreateUserRequest, UpdateTaskRequest } from './user.types';
 
 export const getAll = () => usersRepo.getAll();
 
@@ -12,13 +12,13 @@ export const remove = async (userId: string) => {
   unassignUsersById(userId);
 };
 
-export const save = (userData: UserRequest) => {
+export const save = (userData: CreateUserRequest) => {
   const newUser = new UserModel(userData);
   usersRepo.save(newUser);
   return newUser;
 };
 
-export const update = async (userId: string, userData: UserRequest) => {
+export const update = async (userId: string, userData: UpdateTaskRequest) => {
   const user = await findById(userId);
   if (user) user.update(userData);
   return user;

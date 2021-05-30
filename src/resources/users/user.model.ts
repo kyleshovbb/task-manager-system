@@ -1,6 +1,10 @@
 import uuid from 'uuid';
 
-import { UserRequest, UserResponse } from './user.types';
+import {
+  CreateUserRequest,
+  UpdateTaskRequest,
+  UserResponse,
+} from './user.types';
 
 export default class User {
   public id: string;
@@ -16,7 +20,7 @@ export default class User {
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd',
-  }: UserRequest = {}) {
+  }: CreateUserRequest = {}) {
     this.id = id;
     this.name = name;
     this.login = login;
@@ -31,7 +35,7 @@ export default class User {
     name = this.name,
     login = this.login,
     password = this.password,
-  }) {
+  }: UpdateTaskRequest) {
     this.name = name;
     this.login = login;
     this.password = password;

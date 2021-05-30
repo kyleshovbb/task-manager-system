@@ -1,6 +1,6 @@
 import TaskModel from './task.model';
 import tasksRepo from './task.memory.repository';
-import { TaskRequest } from './task.types';
+import { CreateTaskRequest, UpdateTaskRequest } from './task.types';
 
 export const getAll = () => tasksRepo.getAll();
 
@@ -15,13 +15,13 @@ export const removeByBoardId = (boardId: string) =>
 export const unassignUsersById = (userId: string) =>
   tasksRepo.unassignUsersById(userId);
 
-export const save = (taskData: TaskRequest, boardId: string) => {
+export const save = (taskData: CreateTaskRequest, boardId: string) => {
   const newTask = new TaskModel({ ...taskData, boardId });
   tasksRepo.save(newTask);
   return newTask;
 };
 
-export const update = async (taskId: string, taskData: TaskRequest) => {
+export const update = async (taskId: string, taskData: UpdateTaskRequest) => {
   const task = await findById(taskId);
   if (task) task.update(taskData);
   return task;

@@ -4,7 +4,7 @@ import { getAll, save, findById, update, remove } from './board.service';
 
 const router = Router();
 
-router.route('/').get(async (req, res, next) => {
+router.route('/').get(async (_req, res, next) => {
   try {
     const boards = await getAll();
     res.json(boards.map((board) => board.toResponse()));
@@ -27,7 +27,11 @@ router.route('/').post(async (req, res, next) => {
 router.route('/:boardId').get(async (req, res, next) => {
   try {
     const board = await findById(req.params.boardId);
-    res.json(board.toResponse());
+    if (board) {
+      res.json(board.toResponse());
+    } else {
+      res.status(400).json({ message: 'Board not found' });
+    }
   } catch (err) {
     res.status(404);
   }
@@ -37,7 +41,11 @@ router.route('/:boardId').get(async (req, res, next) => {
 router.route('/:boardId').put(async (req, res, next) => {
   try {
     const board = await update(req.params.boardId, req.body);
-    res.json(board.toResponse());
+    if (board) {
+      res.json(board.toResponse());
+    } else {
+      res.status(400).json({ message: 'Board not found' });
+    }
   } catch (err) {
     res.status(404);
   }

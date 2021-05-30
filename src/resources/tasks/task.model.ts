@@ -1,5 +1,9 @@
 import { v4 } from 'uuid';
-import { TaskRequest, TaskResponse } from './task.types';
+import {
+  CreateTaskRequest,
+  TaskResponse,
+  UpdateTaskRequest,
+} from './task.types';
 
 export default class Task {
   public id: string;
@@ -24,7 +28,7 @@ export default class Task {
     boardId = 'test',
     columnId = null,
     description = 'TEST_DESCRIPTION',
-  }: TaskRequest = {}) {
+  }: CreateTaskRequest = {}) {
     this.id = id;
     this.title = title;
     this.order = order;
@@ -47,15 +51,13 @@ export default class Task {
   }
 
   update({
-    id = this.id,
     title = this.title,
     order = this.order,
     userId = this.userId,
     boardId = this.boardId,
     columnId = this.columnId,
     description = this.description,
-  }) {
-    this.id = id;
+  }: UpdateTaskRequest) {
     this.title = title;
     this.order = order;
     this.userId = userId;
