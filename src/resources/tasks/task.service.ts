@@ -1,24 +1,28 @@
 import TaskModel from './task.model';
 import tasksRepo from './task.memory.repository';
+import { TaskRequest } from './task.types';
 
 export const getAll = () => tasksRepo.getAll();
 
-export const findById = (id) => tasksRepo.findById(id);
+export const findById = (id: string) => tasksRepo.findById(id);
 
-export const removeByTaskId = (taskId) => tasksRepo.removeByTaskId(taskId);
+export const removeByTaskId = (taskId: string) =>
+  tasksRepo.removeByTaskId(taskId);
 
-export const removeByBoardId = (boardId) => tasksRepo.removeByBoardId(boardId);
+export const removeByBoardId = (boardId: string) =>
+  tasksRepo.removeByBoardId(boardId);
 
-export const unassignUsersById = (userId) => tasksRepo.unassignUsersById(userId);
+export const unassignUsersById = (userId: string) =>
+  tasksRepo.unassignUsersById(userId);
 
-export const save = (taskData, boardId) => {
+export const save = (taskData: TaskRequest, boardId: string) => {
   const newTask = new TaskModel({ ...taskData, boardId });
   tasksRepo.save(newTask);
   return newTask;
 };
 
-export const update = async (taskId, taskData) => {
+export const update = async (taskId: string, taskData: TaskRequest) => {
   const task = await findById(taskId);
-  task.update(taskData);
+  if (task) task.update(taskData);
   return task;
 };

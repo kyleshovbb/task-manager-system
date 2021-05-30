@@ -1,6 +1,21 @@
 import { v4 } from 'uuid';
+import { TaskRequest, TaskResponse } from './task.types';
 
-export default class Board {
+export default class Task {
+  public id: string;
+
+  public title: string;
+
+  public order: number;
+
+  public userId: string | null;
+
+  public boardId: string | null;
+
+  public columnId: string | null;
+
+  public description: string;
+
   constructor({
     id = v4(),
     title = 'TEST_TASK_TITLE',
@@ -9,7 +24,7 @@ export default class Board {
     boardId = 'test',
     columnId = null,
     description = 'TEST_DESCRIPTION',
-  } = {}) {
+  }: TaskRequest = {}) {
     this.id = id;
     this.title = title;
     this.order = order;
@@ -19,7 +34,7 @@ export default class Board {
     this.description = description;
   }
 
-  toResponse() {
+  toResponse(): TaskResponse {
     return {
       id: this.id,
       title: this.title,
