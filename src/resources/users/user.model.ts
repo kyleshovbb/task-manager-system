@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import {
   CreateUserRequest,
@@ -16,7 +16,7 @@ export default class User {
   public password: string;
 
   constructor({
-    id = uuid.v4(),
+    id = v4(),
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd',

@@ -30,7 +30,7 @@ router.route('/:boardId').get(async (req, res, next) => {
     if (board) {
       res.json(board.toResponse());
     } else {
-      res.status(400).json({ message: 'Board not found' });
+      res.status(404).json({ message: 'Board not found' });
     }
   } catch (err) {
     res.status(404);
@@ -44,7 +44,7 @@ router.route('/:boardId').put(async (req, res, next) => {
     if (board) {
       res.json(board.toResponse());
     } else {
-      res.status(400).json({ message: 'Board not found' });
+      res.status(404).json({ message: 'Board not found' });
     }
   } catch (err) {
     res.status(404);

@@ -30,7 +30,7 @@ router.route('/:taskId').get(async (req, res, next) => {
     if (task) {
       res.json(task.toResponse());
     } else {
-      res.status(400).json({ message: 'Task not found' });
+      res.status(404).json({ message: 'Task not found' });
     }
   } catch (err) {
     res.status(404);
@@ -44,7 +44,7 @@ router.route('/:taskId').put(async (req, res, next) => {
     if (task) {
       res.json(task.toResponse());
     } else {
-      res.status(400).json({ message: 'Task not found' });
+      res.status(404).json({ message: 'Task not found' });
     }
   } catch (err) {
     res.status(404);

@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import { v4 } from 'uuid';
 import {
   Column,
   BoardResponse,
@@ -14,7 +14,7 @@ export default class Board {
   public columns: Column[];
 
   constructor({
-    id = uuid.v4(),
+    id = v4(),
     title = 'TEST_BOARD',
     columns = [],
   }: CreateBoardRequest = {}) {

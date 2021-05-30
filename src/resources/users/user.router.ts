@@ -22,7 +22,7 @@ router.route('/:userId').get(async (req, res, next) => {
   if (user) {
     res.status(200).json(user.toResponse());
   } else {
-    res.status(400).json({ message: 'User not found' });
+    res.status(404).json({ message: 'User not found' });
   }
 
   next();
@@ -34,7 +34,7 @@ router.route('/:userId').put(async (req, res, next) => {
   if (user) {
     res.status(200).json(user.toResponse());
   } else {
-    res.status(400).json({ message: 'User not found' });
+    res.status(404).json({ message: 'User not found' });
   }
   next();
 });
