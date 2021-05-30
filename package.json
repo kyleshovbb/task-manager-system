@@ -11,7 +11,7 @@
   "scripts": {
     "start": "ts-node src/server.ts",
     "lint": "eslint --ext .js,.ts --fix src/",
-    "build": "tsc --project src/",
+    "build": "tsc --project .",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
   },
@@ -45,9 +45,6 @@
     ]
   },
   "dependencies": {
-    "@types/swagger-ui-express": "^4.1.2",
-    "@types/uuid": "^8.3.0",
-    "@types/yamljs": "^0.2.31",
     "cross-env": "7.0.3",
     "dotenv": "9.0.0",
     "express": "4.17.1",
@@ -56,6 +53,9 @@
     "yamljs": "0.3.0"
   },
   "devDependencies": {
+    "@types/swagger-ui-express": "^4.1.2",
+    "@types/uuid": "^8.3.0",
+    "@types/yamljs": "^0.2.31",
     "@types/express": "^4.17.12",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
