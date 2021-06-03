@@ -7,14 +7,12 @@ export const getAll = () => usersRepo.getAll();
 
 export const findById = (id: string) => usersRepo.findById(id);
 
-export const remove = async (userId: string) => {
-  await usersRepo.remove(userId);
-  unassignUsersById(userId);
-};
+export const remove = async (userId: string) =>
+  Promise.allSettled([usersRepo.remove(userId), unassignUsersById(userId)]);
 
-export const save = (userData: CreateUserRequest) => {
+export const save = async (userData: CreateUserRequest) => {
   const newUser = new UserModel(userData);
-  usersRepo.save(newUser);
+  await usersRepo.save(newUser);
   return newUser;
 };
 

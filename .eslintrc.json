@@ -15,13 +15,17 @@
     }
   },
   "settings": {
-    "noInlineConfig": true
+    "noInlineConfig": true,
+    "react": {
+      "version": "latest"
+    }
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "airbnb-typescript",
     "prettier"
   ],

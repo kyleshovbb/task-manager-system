@@ -16,7 +16,7 @@ class UsersRepository {
   }
 
   async save(user: User) {
-    return this.users.push(user);
+    this.users.push(user);
   }
 
   async remove(id: string) {

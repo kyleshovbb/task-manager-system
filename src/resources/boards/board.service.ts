@@ -7,14 +7,15 @@ export const getAll = () => boardsRepo.getAll();
 
 export const findById = (id: string) => boardsRepo.findById(id);
 
-export const remove = async (boardId: string) => {
-  await boardsRepo.remove(boardId);
-  removeTaskByBoardId(boardId);
-};
+export const remove = (boardId: string) =>
+  Promise.allSettled([
+    boardsRepo.remove(boardId),
+    removeTaskByBoardId(boardId),
+  ]);
 
-export const save = (boardData: CreateBoardRequest) => {
+export const save = async (boardData: CreateBoardRequest) => {
   const newBoard = new BoardModel(boardData);
-  boardsRepo.save(newBoard);
+  await boardsRepo.save(newBoard);
   return newBoard;
 };
 

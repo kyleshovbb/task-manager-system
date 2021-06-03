@@ -16,7 +16,7 @@ class BoardsRepository {
   }
 
   async save(board: Board) {
-    return this.boards.push(board);
+    this.boards.push(board);
   }
 
   async remove(id: string) {
