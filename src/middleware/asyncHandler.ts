@@ -1,9 +1,12 @@
 import { NextFunction, Response, Request, RequestHandler } from 'express';
 
-const asyncHandler = (fn: RequestHandler) => (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => Promise.resolve(fn(req, res, next)).catch(next);
+interface ParamsDictionary {
+  [key: string]: string;
+}
 
-export default asyncHandler;
+export default function asyncHandler<T = ParamsDictionary>(
+  fn: RequestHandler<T>
+) {
+  return (req: Request<T>, res: Response, next: NextFunction) =>
+    Promise.resolve(fn(req, res, next)).catch(next);
+}

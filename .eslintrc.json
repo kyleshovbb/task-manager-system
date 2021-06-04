@@ -37,6 +37,9 @@
     "import/prefer-default-export": "off",
     "no-param-reassign": "off",
     "no-restricted-syntax": "off",
-    "node/no-missing-import": "off"
+    "node/no-missing-import": "off",
+    "no-misused-promises": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-misused-promises": "off"
   }
 }
