@@ -29,8 +29,21 @@ export const logger = createLogger({
   exitOnError: true,
 });
 
+enum MorganMessagePart {
+  method = 'METHOD:',
+  url = 'URL:',
+  status = 'STATUS:',
+  responseTime = 'RESPONSE_TIME:',
+  query = 'QUERY:',
+  body = 'BODY:',
+  error = 'ERROR_MESSAGE:',
+}
+
 const loggerStream: StreamOptions = {
-  write: (message) => logger.http(message),
+  write: (message) =>
+    message.includes(MorganMessagePart.error)
+      ? logger.error(message)
+      : logger.http(message),
 };
 
 function parseMorganTokens(
@@ -39,24 +52,36 @@ function parseMorganTokens(
   res: MorganResponse
 ): string {
   const getMethod = tokens['method'];
-  const methodInfo = `METHOD: ${(getMethod && getMethod(req, res)) || '-'}`;
+  const methodInfo = `${MorganMessagePart.method} ${
+    (getMethod && getMethod(req, res)) || '-'
+  }`;
 
   const getUrl = tokens['url'];
-  const urlInfo = `URL: ${(getUrl && getUrl(req, res)) || '-'}`;
+  const urlInfo = `${MorganMessagePart.url} ${
+    (getUrl && getUrl(req, res)) || '-'
+  }`;
 
   const getStatus = tokens['status'];
-  const statusInfo = `STATUS: ${(getStatus && getStatus(req, res)) || '-'}`;
+  const statusCode = getStatus && getStatus(req, res);
+  const statusInfo = `${MorganMessagePart.status} ${statusCode || '-'}`;
 
   const getResponseTime = tokens['response-time'];
-  const responseTimeInfo = `RESPONSE_TIME: ${
+  const responseTimeInfo = `${MorganMessagePart.responseTime} ${
     (getResponseTime && getResponseTime(req, res)) || '-'
   }ms`;
 
-  const queryInfo = `QUERY: ${JSON.stringify(req.query)}`;
+  const queryInfo = `${MorganMessagePart.query} ${JSON.stringify(req.query)}`;
 
-  const bodyInfo = `BODY: ${JSON.stringify(req.body)}`;
+  const bodyInfo = `${MorganMessagePart.body} ${JSON.stringify(req.body)}`;
 
-  return `${methodInfo}; ${urlInfo}; ${statusInfo}; ${queryInfo}; ${bodyInfo}; ${responseTimeInfo}`;
+  const isError = statusCode && Number(statusCode) >= 400;
+
+  if (isError) {
+    const errorMessageInfo = `${MorganMessagePart.error} ${res.statusMessage}`;
+    return `${statusInfo}; ${errorMessageInfo}; ${methodInfo}; ${urlInfo}; ${queryInfo}; ${bodyInfo}; ${responseTimeInfo}`;
+  }
+
+  return `${statusInfo}; ${methodInfo}; ${urlInfo}; ${queryInfo}; ${bodyInfo}; ${responseTimeInfo}`;
 }
 
 export const serverLoggerMiddleware = morgan(parseMorganTokens, {
