@@ -30,13 +30,14 @@ export const logger = createLogger({
 });
 
 enum MorganMessagePart {
+  error = 'ERROR_HTTP_LOG',
+  success = 'SUCCESS_HTTP_LOG',
   method = 'METHOD:',
   url = 'URL:',
-  status = 'STATUS:',
+  statusCode = 'STATUS_CODE:',
   responseTime = 'RESPONSE_TIME:',
   query = 'QUERY:',
   body = 'BODY:',
-  error = 'ERROR_MESSAGE:',
 }
 
 const loggerStream: StreamOptions = {
@@ -61,9 +62,9 @@ function parseMorganTokens(
     (getUrl && getUrl(req, res)) || '-'
   }`;
 
-  const getStatus = tokens['status'];
-  const statusCode = getStatus && getStatus(req, res);
-  const statusInfo = `${MorganMessagePart.status} ${statusCode || '-'}`;
+  const getStatusCode = tokens['status'];
+  const statusCode = getStatusCode && getStatusCode(req, res);
+  const statusCodeInfo = `${MorganMessagePart.statusCode} ${statusCode || '-'}`;
 
   const getResponseTime = tokens['response-time'];
   const responseTimeInfo = `${MorganMessagePart.responseTime} ${
@@ -74,14 +75,12 @@ function parseMorganTokens(
 
   const bodyInfo = `${MorganMessagePart.body} ${JSON.stringify(req.body)}`;
 
-  const isError = statusCode && Number(statusCode) >= 400;
+  const logStatus =
+    statusCode && Number(statusCode) >= 400
+      ? MorganMessagePart.error
+      : MorganMessagePart.success;
 
-  if (isError) {
-    const errorMessageInfo = `${MorganMessagePart.error} ${res.statusMessage}`;
-    return `${statusInfo}; ${errorMessageInfo}; ${methodInfo}; ${urlInfo}; ${queryInfo}; ${bodyInfo}; ${responseTimeInfo}`;
-  }
-
-  return `${statusInfo}; ${methodInfo}; ${urlInfo}; ${queryInfo}; ${bodyInfo}; ${responseTimeInfo}`;
+  return `${logStatus} ${statusCodeInfo}; ${methodInfo}; ${urlInfo}; ${queryInfo}; ${bodyInfo} ${responseTimeInfo}`;
 }
 
 export const serverLoggerMiddleware = morgan(parseMorganTokens, {
