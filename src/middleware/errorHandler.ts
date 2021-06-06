@@ -3,7 +3,7 @@ import { ErrorRequestHandler } from 'express';
 interface ServerError {
   message: string;
   statusCode?: number;
-  [key: string]: any;
+  [key: string]: string | number | undefined;
 }
 
 const errorHandler: ErrorRequestHandler = (

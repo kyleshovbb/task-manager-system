@@ -6,6 +6,7 @@ import YAML from 'yamljs';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import errorHandler from './middleware/errorHandler';
+import { serverLoggerMiddleware } from './common/logger';
 
 const app = express();
 const swaggerDocument = YAML.load(
@@ -13,6 +14,7 @@ const swaggerDocument = YAML.load(
 ) as Object;
 
 app.use(express.json());
+app.use(serverLoggerMiddleware);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
