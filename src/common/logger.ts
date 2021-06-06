@@ -21,18 +21,20 @@ export const logger = createLogger({
   level: 'http',
   format: format.combine(format.timestamp(), format.json()),
   transports: [
-    new transports.Console(),
-    new transports.File({ filename: 'logs/http.log', level: 'http' }),
+    new transports.Console({
+      format: format.combine(format.colorize(), format.simple()),
+    }),
+    new transports.File({ filename: 'logs/full.log', level: 'http' }),
     new transports.File({ filename: 'logs/error.log', level: 'error' }),
   ],
   exitOnError: true,
 });
 
-export enum LogStatuses {
-  httpError = 'HTTP_ERROR_LOG',
-  httpSuccess = 'HTTP_SUCCESS_LOG',
-  uncaughtExceptionError = 'UNCAUGHT_EXCEPTION_ERROR',
-  unhandledRejectionError = 'UNCAUGHT_REJECTION_ERROR',
+export enum LogTypes {
+  httpError = '[HTTP_ERROR_LOG]',
+  httpSuccess = '[HTTP_SUCCESS_LOG]',
+  uncaughtExceptionError = '[UNCAUGHT_EXCEPTION_ERROR]',
+  unhandledRejectionError = '[UNCAUGHT_REJECTION_ERROR]',
 }
 
 enum MorganMessagePart {
@@ -46,13 +48,13 @@ enum MorganMessagePart {
 
 const loggerStream: StreamOptions = {
   write: (message) =>
-    message.includes(LogStatuses.httpError)
+    message.includes(LogTypes.httpError)
       ? logger.error(message)
       : logger.http(message),
 };
 
-export function parseErrorToLog(error: Error, logStatus: LogStatuses) {
-  return `${logStatus}; ERROR_MESSAGE: ${error.message}; ERROR_STACK: ${
+export function parseErrorToLog(error: Error, logType: LogTypes) {
+  return `${logType}; ERROR_MESSAGE: ${error.message}; ERROR_STACK: ${
     error.stack || '-'
   };`;
 }
@@ -85,12 +87,12 @@ function parseMorganTokens(
 
   const bodyInfo = `${MorganMessagePart.body} ${JSON.stringify(req.body)}`;
 
-  const logStatus =
+  const logType =
     statusCode && Number(statusCode) >= 400
-      ? LogStatuses.httpError
-      : LogStatuses.httpSuccess;
+      ? LogTypes.httpError
+      : LogTypes.httpSuccess;
 
-  return `${logStatus} ${statusCodeInfo}; ${methodInfo}; ${urlInfo}; ${queryInfo}; ${bodyInfo} ${responseTimeInfo}`;
+  return `${logType} ${statusCodeInfo}; ${methodInfo}; ${urlInfo}; ${queryInfo}; ${bodyInfo} ${responseTimeInfo}`;
 }
 
 export const serverLoggerMiddleware = morgan(parseMorganTokens, {

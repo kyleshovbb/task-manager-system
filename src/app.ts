@@ -8,7 +8,7 @@ import boardRouter from './resources/boards/board.router';
 import errorHandler from './middleware/errorHandler';
 import {
   logger,
-  LogStatuses,
+  LogTypes,
   parseErrorToLog,
   serverLoggerMiddleware,
 } from './common/logger';
@@ -37,11 +37,11 @@ app.use('/boards', boardRouter);
 app.use(errorHandler);
 
 process.on('uncaughtException', (error: Error) => {
-  logger.error(parseErrorToLog(error, LogStatuses.uncaughtExceptionError));
+  logger.error(parseErrorToLog(error, LogTypes.uncaughtExceptionError));
 });
 
 process.on('unhandledRejection', (error: Error) => {
-  logger.error(parseErrorToLog(error, LogStatuses.unhandledRejectionError));
+  logger.error(parseErrorToLog(error, LogTypes.unhandledRejectionError));
 });
 
 export default app;
