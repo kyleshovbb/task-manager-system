@@ -22,16 +22,20 @@ export const logger = createLogger({
   format: format.combine(format.timestamp(), format.json()),
   transports: [
     new transports.Console(),
-    new transports.File({ filename: 'logs/combined.log' }),
-    new transports.File({ filename: 'logs/error.log', level: 'error' }),
     new transports.File({ filename: 'logs/http.log', level: 'http' }),
+    new transports.File({ filename: 'logs/error.log', level: 'error' }),
   ],
   exitOnError: true,
 });
 
+export enum LogStatuses {
+  httpError = 'HTTP_ERROR_LOG',
+  httpSuccess = 'HTTP_SUCCESS_LOG',
+  uncaughtExceptionError = 'UNCAUGHT_EXCEPTION_ERROR',
+  unhandledRejectionError = 'UNCAUGHT_REJECTION_ERROR',
+}
+
 enum MorganMessagePart {
-  error = 'ERROR_HTTP_LOG',
-  success = 'SUCCESS_HTTP_LOG',
   method = 'METHOD:',
   url = 'URL:',
   statusCode = 'STATUS_CODE:',
@@ -42,10 +46,16 @@ enum MorganMessagePart {
 
 const loggerStream: StreamOptions = {
   write: (message) =>
-    message.includes(MorganMessagePart.error)
+    message.includes(LogStatuses.httpError)
       ? logger.error(message)
       : logger.http(message),
 };
+
+export function parseErrorToLog(error: Error, logStatus: LogStatuses) {
+  return `${logStatus}; ERROR_MESSAGE: ${error.message}; ERROR_STACK: ${
+    error.stack || '-'
+  };`;
+}
 
 function parseMorganTokens(
   tokens: TokenIndexer,
@@ -77,8 +87,8 @@ function parseMorganTokens(
 
   const logStatus =
     statusCode && Number(statusCode) >= 400
-      ? MorganMessagePart.error
-      : MorganMessagePart.success;
+      ? LogStatuses.httpError
+      : LogStatuses.httpSuccess;
 
   return `${logStatus} ${statusCodeInfo}; ${methodInfo}; ${urlInfo}; ${queryInfo}; ${bodyInfo} ${responseTimeInfo}`;
 }

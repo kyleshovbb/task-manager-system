@@ -6,7 +6,12 @@ import YAML from 'yamljs';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import errorHandler from './middleware/errorHandler';
-import { serverLoggerMiddleware } from './common/logger';
+import {
+  logger,
+  LogStatuses,
+  parseErrorToLog,
+  serverLoggerMiddleware,
+} from './common/logger';
 
 const app = express();
 const swaggerDocument = YAML.load(
@@ -30,5 +35,13 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 
 app.use(errorHandler);
+
+process.on('uncaughtException', (error: Error) => {
+  logger.error(parseErrorToLog(error, LogStatuses.uncaughtExceptionError));
+});
+
+process.on('unhandledRejection', (error: Error) => {
+  logger.error(parseErrorToLog(error, LogStatuses.unhandledRejectionError));
+});
 
 export default app;
