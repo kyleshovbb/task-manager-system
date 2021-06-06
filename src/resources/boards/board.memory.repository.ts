@@ -1,4 +1,8 @@
+import Board from './board.model';
+
 class BoardsRepository {
+  private boards: Board[];
+
   constructor() {
     this.boards = [];
   }
@@ -7,17 +11,19 @@ class BoardsRepository {
     return this.boards;
   }
 
-  async findById(id) {
+  async findById(id: string) {
     return this.boards.find((board) => board.id === id);
   }
 
-  async save(board) {
+  async save(board: Board) {
     return this.boards.push(board);
   }
 
-  async remove(id) {
+  async remove(id: string) {
     this.boards = this.boards.filter((board) => board.id !== id);
   }
 }
 
-module.exports = new BoardsRepository();
+const boardsRepository = new BoardsRepository();
+
+export default boardsRepository;

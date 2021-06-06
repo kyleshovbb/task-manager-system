@@ -1,15 +1,34 @@
-const uuid = require('uuid');
+import { v4 } from 'uuid';
+import {
+  CreateTaskRequest,
+  TaskResponse,
+  UpdateTaskRequest,
+} from './task.types';
 
-class Board {
+export default class Task {
+  public id: string;
+
+  public title: string;
+
+  public order: number;
+
+  public userId: string | null;
+
+  public boardId: string | null;
+
+  public columnId: string | null;
+
+  public description: string;
+
   constructor({
-    id = uuid.v4(),
+    id = v4(),
     title = 'TEST_TASK_TITLE',
     order = 0,
     userId = null,
     boardId = 'test',
     columnId = null,
     description = 'TEST_DESCRIPTION',
-  } = {}) {
+  }: CreateTaskRequest = {}) {
     this.id = id;
     this.title = title;
     this.order = order;
@@ -19,7 +38,7 @@ class Board {
     this.description = description;
   }
 
-  toResponse() {
+  toResponse(): TaskResponse {
     return {
       id: this.id,
       title: this.title,
@@ -32,15 +51,13 @@ class Board {
   }
 
   update({
-    id = this.id,
     title = this.title,
     order = this.order,
     userId = this.userId,
     boardId = this.boardId,
     columnId = this.columnId,
     description = this.description,
-  }) {
-    this.id = id;
+  }: UpdateTaskRequest) {
     this.title = title;
     this.order = order;
     this.userId = userId;
@@ -49,5 +66,3 @@ class Board {
     this.description = description;
   }
 }
-
-module.exports = Board;
