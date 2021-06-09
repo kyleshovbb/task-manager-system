@@ -1,7 +1,7 @@
 FROM node:14.17-alpine    
 WORKDIR /urs/app
-COPY package*.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 4000
+EXPOSE ${PORT}
 CMD ["npm", "start"]
