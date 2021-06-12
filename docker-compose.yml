@@ -1,6 +1,6 @@
 version: '3'
 services:
-  node:
+  node-server:
     build: .
     ports:
       - ${PORT}:${PORT}
@@ -8,6 +8,10 @@ services:
       - database
     environment:
       POST: ${POST}
+    restart: always
+    networks:
+      - server-network
+
   database:
     build: ./database/
     ports:
@@ -17,3 +21,10 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
+    networks:
+      - server-network
+
+networks:
+  server-network:
+    driver: bridge
