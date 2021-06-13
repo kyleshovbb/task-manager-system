@@ -2,6 +2,7 @@ version: '3'
 services:
   server:
     build: .
+    image: 'kyleshovbb/task-manager-system:server'
     ports:
       - ${PORT}:${PORT}
     depends_on:
@@ -18,6 +19,7 @@ services:
 
   database:
     build: ./database/
+    image: 'kyleshovbb/task-manager-system:database'
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     environment:
