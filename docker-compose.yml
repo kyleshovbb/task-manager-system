@@ -32,6 +32,7 @@ services:
       - server-network
     volumes:
       - ./database:/urs/app/database
+      - ./database/data:/var/lib/postgresql/data
 
 networks:
   server-network:
