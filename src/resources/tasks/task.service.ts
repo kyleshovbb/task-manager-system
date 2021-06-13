@@ -15,9 +15,9 @@ export const removeByBoardId = (boardId: string) =>
 export const unassignUsersById = (userId: string) =>
   tasksRepo.unassignUsersById(userId);
 
-export const save = (taskData: CreateTaskRequest, boardId: string) => {
+export const save = async (taskData: CreateTaskRequest, boardId: string) => {
   const newTask = new TaskModel({ ...taskData, boardId });
-  tasksRepo.save(newTask);
+  await tasksRepo.save(newTask);
   return newTask;
 };
 

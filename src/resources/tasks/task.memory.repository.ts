@@ -16,7 +16,7 @@ class TasksRepository {
   }
 
   async save(task: Task) {
-    return this.tasks.push(task);
+    this.tasks.push(task);
   }
 
   async removeByTaskId(taskId: string) {
