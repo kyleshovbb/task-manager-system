@@ -21,18 +21,17 @@ services:
     build: ./database/
     image: 'kyleshovbb/task-manager-system:database'
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - ${DB_PORT}:${DB_PORT}
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     restart: on-failure
     networks:
       - server-network
     volumes:
-      - ./database:/urs/app/database
-      - ./database/data:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
 
 networks:
   server-network:
