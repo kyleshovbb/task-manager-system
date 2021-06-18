@@ -7,8 +7,10 @@ services:
       - ${PORT}:${PORT}
     depends_on:
       - database
-    environment:
-      POST: ${POST}
+    links:
+      - database
+    env_file:
+      - .env
     restart: on-failure
     networks:
       - server-network
@@ -18,20 +20,18 @@ services:
       - ./node_modules:/urs/app/node_modules
 
   database:
+    container_name: 'my-database'
     build: ./database/
     image: 'kyleshovbb/task-manager-system:database'
     ports:
-      - ${DB_PORT}:${DB_PORT}
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_PORT: ${DB_PORT}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      - ${DB_PORT}
+    env_file:
+      - .env
     restart: on-failure
     networks:
       - server-network
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./database/data:/var/lib/postgresql/data
 
 networks:
   server-network:

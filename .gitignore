@@ -1,5 +1,4 @@
 node_modules
 build
 logs
-pgdata
-.env
+database/
