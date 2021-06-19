@@ -1,28 +1,26 @@
-import TaskModel from './task.model';
-import tasksRepo from './task.memory.repository';
+import { getCustomRepository } from 'typeorm';
+import { TasksRepository } from './task.memory.repository';
 import { CreateTaskRequest, UpdateTaskRequest } from './task.types';
 
-export const getAll = () => tasksRepo.getAll();
+export const getAll = () => getCustomRepository(TasksRepository).find();
 
-export const findById = (id: string) => tasksRepo.findById(id);
+export const findById = (id: string) =>
+  getCustomRepository(TasksRepository).findOne(id);
 
 export const removeByTaskId = (taskId: string) =>
-  tasksRepo.removeByTaskId(taskId);
+  getCustomRepository(TasksRepository).delete(taskId);
 
 export const removeByBoardId = (boardId: string) =>
-  tasksRepo.removeByBoardId(boardId);
+  getCustomRepository(TasksRepository).delete({ boardId });
 
 export const unassignUsersById = (userId: string) =>
-  tasksRepo.unassignUsersById(userId);
+  getCustomRepository(TasksRepository).unassignUsersById(userId);
 
-export const save = async (taskData: CreateTaskRequest, boardId: string) => {
-  const newTask = new TaskModel({ ...taskData, boardId });
-  await tasksRepo.save(newTask);
-  return newTask;
-};
+export const save = async (taskData: CreateTaskRequest, boardId: string) =>
+  getCustomRepository(TasksRepository).createAndSave({
+    ...taskData,
+    boardId,
+  });
 
-export const update = async (taskId: string, taskData: UpdateTaskRequest) => {
-  const task = await findById(taskId);
-  if (task) task.update(taskData);
-  return task;
-};
+export const update = async (taskId: string, taskData: UpdateTaskRequest) =>
+  getCustomRepository(TasksRepository).update(taskId, taskData);

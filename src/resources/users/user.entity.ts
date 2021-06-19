@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
-// import { v4 } from 'uuid';
 
 import { UserResponse } from './user.types';
 

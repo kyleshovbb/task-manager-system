@@ -1,8 +1,8 @@
 export interface CreateUserRequest {
-  id?: string;
-  name?: string;
-  login?: string;
-  password?: string;
+  id: string;
+  name: string;
+  login: string;
+  password: string;
 }
 
 export type UpdateTaskRequest = Omit<CreateUserRequest, 'id'>;
