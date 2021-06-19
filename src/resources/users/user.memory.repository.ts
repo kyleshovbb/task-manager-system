@@ -1,29 +1,29 @@
-import User from './user.model';
+import { EntityRepository, Repository } from 'typeorm';
+import User from './user.entity';
+import { CreateUserRequest } from './user.types';
 
-class UsersRepository {
-  private users: User[];
-
-  constructor() {
-    this.users = [];
-  }
-
+@EntityRepository(User)
+export class UsersRepository extends Repository<User> {
   async getAll() {
-    return this.users;
+    return this.find();
   }
 
   async findById(id: string) {
-    return this.users.find((user) => user.id === id);
+    return this.findOne(id);
   }
 
-  async save(user: User) {
-    this.users.push(user);
+  createAndSave(userData: CreateUserRequest) {
+    const newUser = this.create();
+    if (userData.name) newUser.name = userData.name;
+    if (userData.login) newUser.login = userData.login;
+    if (userData.password) newUser.password = userData.password;
+    return this.save(newUser);
   }
 
-  async remove(id: string) {
-    this.users = this.users.filter((user) => user.id !== id);
+  removeById(id: string) {
+    return this.findById(id).then(async (user) => {
+      if (user) await this.remove(user);
+      return user;
+    });
   }
 }
-
-const usersRepository = new UsersRepository();
-
-export default usersRepository;

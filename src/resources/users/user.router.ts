@@ -37,7 +37,7 @@ router.route('/:userId').put(
   asyncHandler(async (req, res, next) => {
     const user = await update(req.params.userId, req.body);
     if (user) {
-      res.status(200).json(user.toResponse());
+      res.status(200).json(user);
     } else {
       next({
         message: 'User not found',

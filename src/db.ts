@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import config from './common/config';
+import UserEntity from './resources/users/user.entity';
 
 export function createDBConnection(cb: Function) {
   createConnection({
@@ -12,6 +13,7 @@ export function createDBConnection(cb: Function) {
     database: config.POSTGRES_DB,
     logging: true,
     synchronize: true,
+    entities: [UserEntity],
   })
     .then(() => {
       cb();
