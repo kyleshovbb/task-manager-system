@@ -1,29 +1,13 @@
-import Board from './board.model';
+import { EntityRepository, Repository } from 'typeorm';
+import Board from './board.entity';
+import { CreateBoardRequest } from './board.types';
 
-class BoardsRepository {
-  private boards: Board[];
-
-  constructor() {
-    this.boards = [];
-  }
-
-  async getAll() {
-    return this.boards;
-  }
-
-  async findById(id: string) {
-    return this.boards.find((board) => board.id === id);
-  }
-
-  async save(board: Board) {
-    this.boards.push(board);
-  }
-
-  async remove(id: string) {
-    this.boards = this.boards.filter((board) => board.id !== id);
+@EntityRepository(Board)
+export class BoardsRepository extends Repository<Board> {
+  createAndSave(taskData: CreateBoardRequest) {
+    const newTask = this.create();
+    newTask.title = taskData.title;
+    newTask.columns = taskData.columns;
+    return this.save(newTask);
   }
 }
-
-const boardsRepository = new BoardsRepository();
-
-export default boardsRepository;

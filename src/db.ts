@@ -3,6 +3,7 @@ import { createConnection } from 'typeorm';
 import config from './common/config';
 import UserEntity from './resources/users/user.entity';
 import TaskEntity from './resources/tasks/task.entity';
+import BoardEntity from './resources/boards/board.entity';
 
 export function createDBConnection(cb: Function) {
   createConnection({
@@ -14,7 +15,7 @@ export function createDBConnection(cb: Function) {
     database: config.POSTGRES_DB,
     logging: true,
     synchronize: true,
-    entities: [UserEntity, TaskEntity],
+    entities: [UserEntity, TaskEntity, BoardEntity],
   })
     .then(() => {
       cb();

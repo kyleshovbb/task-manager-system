@@ -1,29 +1,21 @@
-import BoardModel from './board.model';
-import boardsRepo from './board.memory.repository';
+import { getCustomRepository } from 'typeorm';
+import { BoardsRepository } from './board.memory.repository';
 import { removeByBoardId as removeTaskByBoardId } from '../tasks/task.service';
 import { CreateBoardRequest, UpdateBoardRequest } from './board.types';
 
-export const getAll = () => boardsRepo.getAll();
+export const getAll = () => getCustomRepository(BoardsRepository).find();
 
-export const findById = (id: string) => boardsRepo.findById(id);
+export const findById = (id: string) =>
+  getCustomRepository(BoardsRepository).findOne(id);
 
 export const remove = (boardId: string) =>
   Promise.allSettled([
-    boardsRepo.remove(boardId),
+    getCustomRepository(BoardsRepository).delete(boardId),
     removeTaskByBoardId(boardId),
   ]);
 
-export const save = async (boardData: CreateBoardRequest) => {
-  const newBoard = new BoardModel(boardData);
-  await boardsRepo.save(newBoard);
-  return newBoard;
-};
+export const save = async (boardData: CreateBoardRequest) =>
+  getCustomRepository(BoardsRepository).createAndSave(boardData);
 
-export const update = async (
-  boardId: string,
-  boardData: UpdateBoardRequest
-) => {
-  const board = await findById(boardId);
-  if (board) board.update(boardData);
-  return board;
-};
+export const update = async (boardId: string, boardData: UpdateBoardRequest) =>
+  getCustomRepository(BoardsRepository).update(boardId, boardData);
