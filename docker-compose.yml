@@ -1,0 +1,39 @@
+version: '3'
+services:
+  server:
+    build: .
+    image: 'kyleshovbb/task-manager-system:server'
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - database
+    environment:
+      POST: ${POST}
+    restart: on-failure
+    networks:
+      - server-network
+    volumes:
+      - ./src:/urs/app/src
+      - ./logs:/urs/app/logs
+      - ./node_modules:/urs/app/node_modules
+
+  database:
+    build: ./database/
+    image: 'kyleshovbb/task-manager-system:database'
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: on-failure
+    networks:
+      - server-network
+    volumes:
+      - ./database:/urs/app/database
+      - ./database/data:/var/lib/postgresql/data
+
+networks:
+  server-network:
+    driver: bridge
