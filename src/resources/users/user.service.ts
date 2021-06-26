@@ -21,4 +21,4 @@ export const save = async (userData: UserRequest) =>
   getCustomRepository(UsersRepository).createAndSave(userData);
 
 export const update = async (userId: string, userData: UserRequest) =>
-  getCustomRepository(UsersRepository).update(userId, userData);
+  getCustomRepository(UsersRepository).updateAndHashPassword(userId, userData);

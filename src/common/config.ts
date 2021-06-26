@@ -6,20 +6,20 @@ dotenv.config({
 });
 
 const config = {
-  NODE_ENV: process.env['NODE_ENV'],
+  NODE_ENV: process.env.NODE_ENV,
 
-  PORT: Number(process.env['PORT']) || 4000,
+  PORT: Number(process.env.PORT) || 4000,
 
-  JWT_SECRET_KEY: process.env['JWT_SECRET_KEY'],
-  AUTH_MODE: process.env['AUTH_MODE'] === 'true',
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+  JWT_EXPIRATION: process.env.JWT_EXPIRATION,
 
-  DB_PORT: Number(process.env['DB_PORT']),
-  DB_TYPE: process.env['DB_TYPE'],
-  DB_HOST: process.env['DB_HOST'],
+  DB_PORT: Number(process.env.DB_PORT),
+  DB_TYPE: process.env.DB_TYPE,
+  DB_HOST: process.env.DB_HOST,
 
-  POSTGRES_DB: process.env['POSTGRES_DB'],
-  POSTGRES_USER: process.env['POSTGRES_USER'],
-  POSTGRES_PASSWORD: process.env['POSTGRES_PASSWORD'],
+  POSTGRES_DB: process.env.POSTGRES_DB,
+  POSTGRES_USER: process.env.POSTGRES_USER,
+  POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
 };
 
 export default config;

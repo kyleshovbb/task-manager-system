@@ -3,6 +3,7 @@ import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
 
+import authRouter from './resources/auth/auth.router';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
 import errorHandler from './middleware/errorHandler';
@@ -27,6 +28,8 @@ app.use('/', (req, res, next) => {
   }
   next();
 });
+
+app.use(authRouter);
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);

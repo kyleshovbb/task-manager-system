@@ -1,4 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
+import { getHashedPassword } from '../auth/auth.helpers';
 import User from './user.entity';
 import { UserRequest } from './user.types';
 
@@ -8,7 +9,15 @@ export class UsersRepository extends Repository<User> {
     const newUser = this.create();
     newUser.name = userData.name;
     newUser.login = userData.login;
-    newUser.password = userData.password;
+    newUser.password = getHashedPassword(userData.password);
     return this.save(newUser);
+  }
+
+  updateAndHashPassword(userId: string, userData: UserRequest) {
+    const updatedUserDate = {
+      ...userData,
+      password: getHashedPassword(userData.password),
+    };
+    return this.update(userId, updatedUserDate);
   }
 }
