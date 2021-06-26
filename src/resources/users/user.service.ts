@@ -9,7 +9,7 @@ export const findById = (id: string) =>
   getCustomRepository(UsersRepository).findOne(id);
 
 export const findByLogin = (login: string) =>
-  getCustomRepository(UsersRepository).findOne({ login });
+  getCustomRepository(UsersRepository).findOne({ where: { login } });
 
 export const remove = async (userId: string) =>
   Promise.allSettled([
