@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import { BoardsRepository } from './board.memory.repository';
+import { BoardsRepository } from './board.repository';
 import { removeByBoardId as removeTaskByBoardId } from '../tasks/task.service';
 import { CreateBoardRequest, UpdateBoardRequest } from './board.types';
 

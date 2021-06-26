@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import { TasksRepository } from './task.memory.repository';
+import { TasksRepository } from './task.repository';
 import { CreateTaskRequest, UpdateTaskRequest } from './task.types';
 
 export const getAll = () => getCustomRepository(TasksRepository).find();

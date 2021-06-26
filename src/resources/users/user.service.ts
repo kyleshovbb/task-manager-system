@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import { UserRequest } from './user.types';
-import { UsersRepository } from './user.memory.repository';
+import { UsersRepository } from './user.repository';
 import { unassignUsersById } from '../tasks/task.service';
 
 export const getAll = () => getCustomRepository(UsersRepository).find();
