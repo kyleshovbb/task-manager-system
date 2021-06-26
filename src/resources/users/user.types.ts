@@ -1,10 +1,10 @@
-export interface CreateUserRequest {
+export interface IUser {
   id: string;
   name: string;
   login: string;
   password: string;
 }
 
-export type UpdateTaskRequest = Omit<CreateUserRequest, 'id'>;
+export type UserRequest = Omit<IUser, 'id'>;
 
-export type UserResponse = Required<Omit<CreateUserRequest, 'password'>>;
+export type UserResponse = Required<Omit<IUser, 'password'>>;

@@ -1,10 +1,10 @@
 import { EntityRepository, Repository } from 'typeorm';
 import User from './user.entity';
-import { CreateUserRequest } from './user.types';
+import { UserRequest } from './user.types';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
-  createAndSave(userData: CreateUserRequest) {
+  createAndSave(userData: UserRequest) {
     const newUser = this.create();
     newUser.name = userData.name;
     newUser.login = userData.login;
