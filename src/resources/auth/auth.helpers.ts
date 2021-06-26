@@ -15,7 +15,7 @@ export function checkIfPasswordMatch(
 }
 
 export function createJwtToken(payload: JwtPayload): string {
-  return jwt.sign(payload, config.JWT_SECRET_KEY, {
+  return jwt.sign(payload, config.JWT_SECRET_KEY as string, {
     expiresIn: config.JWT_EXPIRATION,
   });
 }
