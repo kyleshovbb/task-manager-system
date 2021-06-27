@@ -1,2 +1,1 @@
-FROM postgres:alpine
-RUN apk upgrade libxml2
+FROM postgres:13.3-alpine

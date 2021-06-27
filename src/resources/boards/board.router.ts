@@ -37,7 +37,7 @@ router.route('/:boardId').put(
   asyncHandler(async (req, res, next) => {
     const board = await update(req.params.boardId, req.body);
     if (board) {
-      res.json(board.toResponse());
+      res.json(board);
     } else {
       next({
         statusCode: 404,

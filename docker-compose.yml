@@ -1,5 +1,19 @@
 version: '3'
 services:
+  database:
+    container_name: 'my-database'
+    build: ./database/
+    image: 'kyleshovbb/task-manager-system:database'
+    ports:
+      - ${DB_PORT}
+    env_file:
+      - .env
+    restart: on-failure
+    networks:
+      - server-network
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
+
   server:
     build: .
     image: 'kyleshovbb/task-manager-system:server'
@@ -7,8 +21,10 @@ services:
       - ${PORT}:${PORT}
     depends_on:
       - database
-    environment:
-      POST: ${POST}
+    links:
+      - database
+    env_file:
+      - .env
     restart: on-failure
     networks:
       - server-network
@@ -16,23 +32,6 @@ services:
       - ./src:/urs/app/src
       - ./logs:/urs/app/logs
       - ./node_modules:/urs/app/node_modules
-
-  database:
-    build: ./database/
-    image: 'kyleshovbb/task-manager-system:database'
-    ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    restart: on-failure
-    networks:
-      - server-network
-    volumes:
-      - ./database:/urs/app/database
-      - ./database/data:/var/lib/postgresql/data
 
 networks:
   server-network:

@@ -37,7 +37,7 @@ router.route('/:taskId').put(
   asyncHandler(async (req, res, next) => {
     const task = await update(req.params.taskId, req.body);
     if (task) {
-      res.json(task.toResponse());
+      res.json(task);
     } else {
       next({
         statusCode: 404,

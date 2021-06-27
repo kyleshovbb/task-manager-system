@@ -1,6 +1,9 @@
-import config from './common/config';
 import app from './app';
+import config from './common/config';
+import { createDBConnection } from './db';
 
-app.listen(config.PORT, () => {
-  process.stdout.write(`App is running on http://localhost:${config.PORT}\n`);
+createDBConnection(() => {
+  app.listen(config.PORT, () => {
+    process.stdout.write(`App is running on http://localhost:${config.PORT}\n`);
+  });
 });

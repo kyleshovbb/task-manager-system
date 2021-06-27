@@ -1,41 +1,21 @@
-import Task from './task.model';
+import { EntityRepository, Repository } from 'typeorm';
+import Task from './task.entity';
+import { CreateTaskRequest } from './task.types';
 
-class TasksRepository {
-  private tasks: Task[];
-
-  constructor() {
-    this.tasks = [];
-  }
-
-  async getAll() {
-    return this.tasks;
-  }
-
-  async findById(id: string) {
-    return this.tasks.find((task) => task.id === id);
-  }
-
-  async save(task: Task) {
-    this.tasks.push(task);
-  }
-
-  async removeByTaskId(taskId: string) {
-    this.tasks = this.tasks.filter((task) => task.id !== taskId);
-  }
-
-  async removeByBoardId(boardId: string) {
-    this.tasks = this.tasks.filter((task) => task.boardId !== boardId);
+@EntityRepository(Task)
+export class TasksRepository extends Repository<Task> {
+  createAndSave(taskData: CreateTaskRequest) {
+    const newTask = this.create();
+    newTask.title = taskData.title;
+    newTask.order = taskData.order;
+    newTask.userId = taskData.userId;
+    newTask.boardId = taskData.boardId;
+    newTask.columnId = taskData.columnId;
+    newTask.description = taskData.description;
+    return this.save(newTask);
   }
 
   async unassignUsersById(userId: string) {
-    for (const task of this.tasks) {
-      if (task.userId === userId) {
-        task.userId = null;
-      }
-    }
+    return this.update({ userId }, { userId: null });
   }
 }
-
-const tasksRepository = new TasksRepository();
-
-export default tasksRepository;
