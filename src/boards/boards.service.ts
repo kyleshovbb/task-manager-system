@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { TasksService } from '../tasks/tasks.service';
 
 import { BoardModel } from './boards.model';
 import { BoardsRepository } from './boards.repository';
@@ -9,7 +10,10 @@ import {
 
 @Injectable()
 export class BoardsService {
-  constructor(private boardsRepository: BoardsRepository) {}
+  constructor(
+    private boardsRepository: BoardsRepository,
+    private tasksService: TasksService
+  ) {}
 
   getAll() {
     return this.boardsRepository.getAll();
@@ -20,7 +24,10 @@ export class BoardsService {
   }
 
   async remove(boardId: string) {
-    return Promise.allSettled([this.boardsRepository.remove(boardId)]);
+    return Promise.allSettled([
+      this.boardsRepository.remove(boardId),
+      this.tasksService.removeByBoardId(boardId),
+    ]);
   }
 
   async save(boardData: CreateBoardRequest) {

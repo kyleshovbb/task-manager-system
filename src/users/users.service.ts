@@ -6,10 +6,14 @@ import {
   CreateUserRequest,
   UpdateUserRequest,
 } from './interfaces/user.interface';
+import { TasksService } from '../tasks/tasks.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private tasksService: TasksService
+  ) {}
 
   getAll() {
     return this.usersRepository.getAll();
@@ -20,7 +24,10 @@ export class UsersService {
   }
 
   async remove(userId: string) {
-    return Promise.allSettled([this.usersRepository.remove(userId)]);
+    return Promise.allSettled([
+      this.usersRepository.remove(userId),
+      this.tasksService.unassignUsersById(userId),
+    ]);
   }
 
   async save(userData: CreateUserRequest) {
