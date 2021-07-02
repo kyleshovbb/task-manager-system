@@ -51,11 +51,13 @@
     "@nestjs/common": "^7.6.18",
     "@nestjs/core": "^7.6.18",
     "@nestjs/platform-express": "^7.6.18",
+    "@types/uuid": "^8.3.1",
     "cross-env": "7.0.3",
     "dotenv": "^10.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.1.0",
     "swagger-ui-express": "4.1.6",
+    "uuid": "^8.3.2",
     "yamljs": "0.3.0"
   },
   "devDependencies": {
