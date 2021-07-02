@@ -3,10 +3,10 @@ import { v4 } from 'uuid';
 import {
   UserResponse,
   CreateUserRequest,
-  UpdateTaskRequest,
+  UpdateUserRequest,
 } from './interfaces/user.interface';
 
-export default class User {
+export class UserModel {
   public id: string;
 
   public name: string;
@@ -35,7 +35,7 @@ export default class User {
     name = this.name,
     login = this.login,
     password = this.password,
-  }: UpdateTaskRequest) {
+  }: UpdateUserRequest) {
     this.name = name;
     this.login = login;
     this.password = password;

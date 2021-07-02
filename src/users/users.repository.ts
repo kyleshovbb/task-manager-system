@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import User from './users.model';
+import { UserModel } from './users.model';
 
 @Injectable()
 export class UsersRepository {
-  private users: User[];
+  private users: UserModel[];
 
   constructor() {
     this.users = [];
@@ -17,7 +17,7 @@ export class UsersRepository {
     return this.users.find((user) => user.id === id);
   }
 
-  async save(user: User) {
+  async save(user: UserModel) {
     this.users.push(user);
   }
 

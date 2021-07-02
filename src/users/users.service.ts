@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import UserModel from './users.model';
+import { UserModel } from './users.model';
 import { UsersRepository } from './users.repository';
 import {
   CreateUserRequest,
-  UpdateTaskRequest,
+  UpdateUserRequest,
 } from './interfaces/user.interface';
 
 @Injectable()
@@ -15,20 +15,23 @@ export class UsersService {
     return this.usersRepository.getAll();
   }
 
-  findById = (id: string) => this.usersRepository.findById(id);
+  findById(id: string) {
+    return this.usersRepository.findById(id);
+  }
 
-  remove = async (userId: string) =>
-    Promise.allSettled([this.usersRepository.remove(userId)]);
+  async remove(userId: string) {
+    return Promise.allSettled([this.usersRepository.remove(userId)]);
+  }
 
-  save = async (userData: CreateUserRequest) => {
+  async save(userData: CreateUserRequest) {
     const newUser = new UserModel(userData);
     await this.usersRepository.save(newUser);
     return newUser;
-  };
+  }
 
-  update = async (userId: string, userData: UpdateTaskRequest) => {
+  async update(userId: string, userData: UpdateUserRequest) {
     const user = await this.findById(userId);
     if (user) user.update(userData);
     return user;
-  };
+  }
 }

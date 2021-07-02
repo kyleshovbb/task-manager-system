@@ -5,6 +5,6 @@ export interface CreateUserRequest {
   password: string;
 }
 
-export type UpdateTaskRequest = Omit<CreateUserRequest, 'id'>;
+export type UpdateUserRequest = Omit<CreateUserRequest, 'id'>;
 
 export type UserResponse = Required<Omit<CreateUserRequest, 'password'>>;

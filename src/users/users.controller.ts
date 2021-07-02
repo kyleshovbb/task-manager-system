@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import {
   CreateUserRequest,
-  UpdateTaskRequest,
+  UpdateUserRequest,
 } from './interfaces/user.interface';
 
 import { UsersService } from './users.service';
@@ -47,7 +47,7 @@ export class UsersController {
   @Put(':userId')
   async update(
     @Param('userId') userId: string,
-    @Body() body: UpdateTaskRequest
+    @Body() body: UpdateUserRequest
   ) {
     const user = await this.userService.update(userId, body);
 
