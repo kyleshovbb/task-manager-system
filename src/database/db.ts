@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import config from './common/config';
-import UserEntity from './resources/users/user.entity';
-import TaskEntity from './resources/tasks/task.entity';
-import BoardEntity from './resources/boards/board.entity';
-import { logger, parseErrorToLog } from './common/logger';
-import { LogTypes } from './types/logger.types';
+import config from '../common/config';
+import UserEntity from '../resources/users/user.entity';
+import TaskEntity from '../resources/tasks/task.entity';
+import BoardEntity from '../resources/boards/board.entity';
+import { LogTypes } from '../types/logger.types';
+import { logger, parseErrorToLog } from '../common/logger';
+import { generateAdmin } from './helpers';
 
 export function createDBConnection(cb: Function) {
   createConnection({
@@ -20,7 +21,8 @@ export function createDBConnection(cb: Function) {
     entities: [UserEntity, TaskEntity, BoardEntity],
     cli: { migrationsDir: 'src/migrations' },
   })
-    .then(() => {
+    .then(async () => {
+      await generateAdmin();
       cb();
     })
     .catch((error) => {

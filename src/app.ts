@@ -3,9 +3,11 @@ import swaggerUI from 'swagger-ui-express';
 import path from 'path';
 import YAML from 'yamljs';
 
+import checkAuth from './middleware/auth.middleware';
+import authRouter from './resources/auth/auth.router';
 import userRouter from './resources/users/user.router';
 import boardRouter from './resources/boards/board.router';
-import errorHandler from './middleware/errorHandler';
+import errorHandler from './middleware/error.handler';
 import { LogTypes } from './types/logger.types';
 import { loggerMiddleware } from './middleware/logger.middleware';
 import { logger, parseErrorToLog } from './common/logger';
@@ -27,6 +29,9 @@ app.use('/', (req, res, next) => {
   }
   next();
 });
+
+app.use(authRouter);
+app.use(checkAuth);
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);

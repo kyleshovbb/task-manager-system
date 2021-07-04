@@ -1,6 +1,6 @@
 import app from './app';
 import config from './common/config';
-import { createDBConnection } from './db';
+import { createDBConnection } from './database/db';
 
 createDBConnection(() => {
   app.listen(config.PORT, () => {

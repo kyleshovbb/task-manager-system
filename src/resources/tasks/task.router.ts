@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import asyncHandler from '../../middleware/asyncHandler';
+import asyncHandler from '../../middleware/async.handler';
 import { CreateRouterParams } from './task.types';
 import { getAll, save, findById, update, removeByTaskId } from './task.service';
 

@@ -11,7 +11,7 @@ const config = {
   PORT: Number(process.env['PORT']) || 4000,
 
   JWT_SECRET_KEY: process.env['JWT_SECRET_KEY'],
-  AUTH_MODE: process.env['AUTH_MODE'] === 'true',
+  JWT_EXPIRATION: process.env['JWT_EXPIRATION'],
 
   DB_PORT: Number(process.env['DB_PORT']),
   DB_TYPE: process.env['DB_TYPE'],

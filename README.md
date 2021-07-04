@@ -20,12 +20,6 @@ npm install
 ## Running application
 
 ```
-npm start
-```
-
-or you can run the application by docker
-
-```
 docker-compose up
 ```
 
