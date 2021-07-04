@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 
 import { UserModel } from './users.model';
 import { UsersRepository } from './users.repository';
+import { TasksService } from '../tasks/tasks.service';
 import {
   CreateUserRequest,
   UpdateUserRequest,
 } from './interfaces/user.interface';
-import { TasksService } from '../tasks/tasks.service';
 
 @Injectable()
 export class UsersService {

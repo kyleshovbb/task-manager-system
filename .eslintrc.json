@@ -45,6 +45,7 @@
     "import/no-extraneous-dependencies": "off",
     "node/no-extraneous-import": ["error", {
       "allowModules": ["express"]
-  }]
+    }],
+    "class-methods-use-this": "off"
   }
 }
