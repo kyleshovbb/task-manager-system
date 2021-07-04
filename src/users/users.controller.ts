@@ -9,10 +9,7 @@ import {
   HttpStatus,
   HttpException,
 } from '@nestjs/common';
-import {
-  CreateUserRequest,
-  UpdateUserRequest,
-} from './interfaces/user.interface';
+import { UserRequest } from './interfaces/user.interface';
 
 import { UsersService } from './users.service';
 
@@ -28,8 +25,8 @@ export class UsersController {
   }
 
   @Post()
-  async create(@Body() body: CreateUserRequest) {
-    const newUser = await this.userService.save(body);
+  async create(@Body() body: UserRequest) {
+    const newUser = await this.userService.createAndSave(body);
     return newUser.toResponse();
   }
 
@@ -45,14 +42,11 @@ export class UsersController {
   }
 
   @Put(':userId')
-  async update(
-    @Param('userId') userId: string,
-    @Body() body: UpdateUserRequest
-  ) {
+  async update(@Param('userId') userId: string, @Body() body: UserRequest) {
     const user = await this.userService.update(userId, body);
 
     if (user) {
-      return user.toResponse();
+      return user;
     }
 
     throw new HttpException('User not found', HttpStatus.NOT_FOUND);

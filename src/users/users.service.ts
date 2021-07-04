@@ -1,44 +1,43 @@
 import { Injectable } from '@nestjs/common';
-
-import { UserModel } from './users.model';
-import { UsersRepository } from './users.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { TasksService } from '../tasks/tasks.service';
-import {
-  CreateUserRequest,
-  UpdateUserRequest,
-} from './interfaces/user.interface';
+import { UserRequest } from './interfaces/user.interface';
+import { UserEntity } from './user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private usersRepository: UsersRepository,
-    private tasksService: TasksService
+    // private usersRepository: UsersRepository,
+    private tasksService: TasksService,
+    @InjectRepository(UserEntity)
+    private usersRepository: Repository<UserEntity>
   ) {}
 
   getAll() {
-    return this.usersRepository.getAll();
+    return this.usersRepository.find();
   }
 
   findById(id: string) {
-    return this.usersRepository.findById(id);
+    return this.usersRepository.findOne(id);
   }
 
   async remove(userId: string) {
     return Promise.allSettled([
-      this.usersRepository.remove(userId),
+      this.usersRepository.delete(userId),
       this.tasksService.unassignUsersById(userId),
     ]);
   }
 
-  async save(userData: CreateUserRequest) {
-    const newUser = new UserModel(userData);
-    await this.usersRepository.save(newUser);
-    return newUser;
+  async createAndSave(userData: UserRequest) {
+    const newUser = this.usersRepository.create();
+    newUser.name = userData.name;
+    newUser.login = userData.login;
+    newUser.password = userData.password;
+    return this.usersRepository.save(newUser);
   }
 
-  async update(userId: string, userData: UpdateUserRequest) {
-    const user = await this.findById(userId);
-    if (user) user.update(userData);
-    return user;
+  async update(userId: string, userData: UserRequest) {
+    return this.usersRepository.update(userId, userData);
   }
 }
