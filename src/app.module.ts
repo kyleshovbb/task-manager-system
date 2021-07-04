@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { ConfigService } from './shared/config/config.service';
 import { UserEntity } from './users/user.entity';
 import { BoardEntity } from './boards/board.entity';
+import { TaskEntity } from './tasks/task.entity';
 
 const config = new ConfigService();
 
@@ -26,7 +27,7 @@ const config = new ConfigService();
       logging: true,
       synchronize: true,
       keepConnectionAlive: true,
-      entities: [UserEntity, BoardEntity],
+      entities: [UserEntity, BoardEntity, TaskEntity],
     }),
   ],
 })

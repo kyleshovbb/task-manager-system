@@ -1,4 +1,4 @@
-export interface CreateTaskRequest {
+interface Task {
   id: string;
   title: string;
   order: number;
@@ -8,11 +8,6 @@ export interface CreateTaskRequest {
   description: string;
 }
 
-export type UpdateTaskRequest = Omit<CreateTaskRequest, 'id'>;
+export type TaskRequest = Omit<Task, 'id'>;
 
-export type TaskResponse = Required<CreateTaskRequest>;
-
-export interface CreateRouterParams {
-  boardId: string;
-  [key: string]: string;
-}
+export type TaskResponse = Task;

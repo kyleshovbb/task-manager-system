@@ -9,10 +9,7 @@ import {
   HttpStatus,
   HttpException,
 } from '@nestjs/common';
-import {
-  CreateTaskRequest,
-  UpdateTaskRequest,
-} from './interfaces/task.interface';
+import { TaskRequest } from './interfaces/task.interface';
 
 import { TasksService } from './tasks.service';
 
@@ -27,10 +24,7 @@ export class TasksController {
   }
 
   @Post()
-  async create(
-    @Body() body: CreateTaskRequest,
-    @Param('boardId') boardId: string
-  ) {
+  async create(@Body() body: TaskRequest, @Param('boardId') boardId: string) {
     const newTask = await this.tasksService.save(body, boardId);
     return newTask.toResponse();
   }
@@ -47,14 +41,11 @@ export class TasksController {
   }
 
   @Put(':taskId')
-  async update(
-    @Body() body: UpdateTaskRequest,
-    @Param('taskId') taskId: string
-  ) {
+  async update(@Body() body: TaskRequest, @Param('taskId') taskId: string) {
     const task = await this.tasksService.update(taskId, body);
 
     if (task) {
-      return task.toResponse();
+      return task;
     }
 
     throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
