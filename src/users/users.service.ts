@@ -8,7 +8,6 @@ import { UserEntity } from './user.entity';
 @Injectable()
 export class UsersService {
   constructor(
-    // private usersRepository: UsersRepository,
     private tasksService: TasksService,
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>

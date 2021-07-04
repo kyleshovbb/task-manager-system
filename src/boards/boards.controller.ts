@@ -9,10 +9,7 @@ import {
   HttpStatus,
   HttpException,
 } from '@nestjs/common';
-import {
-  CreateBoardRequest,
-  UpdateBoardRequest,
-} from './interfaces/board.interface';
+import { BoardRequest } from './interfaces/board.interface';
 
 import { BoardsService } from './boards.service';
 
@@ -27,7 +24,7 @@ export class BoardsController {
   }
 
   @Post()
-  async create(@Body() body: CreateBoardRequest) {
+  async create(@Body() body: BoardRequest) {
     const newBoard = await this.boardService.save(body);
     return newBoard.toResponse();
   }
@@ -44,14 +41,11 @@ export class BoardsController {
   }
 
   @Put(':boardId')
-  async update(
-    @Body() body: UpdateBoardRequest,
-    @Param('boardId') boardId: string
-  ) {
+  async update(@Body() body: BoardRequest, @Param('boardId') boardId: string) {
     const board = await this.boardService.update(boardId, body);
 
     if (board) {
-      return board.toResponse();
+      return board;
     }
 
     throw new HttpException('Board not found', HttpStatus.NOT_FOUND);

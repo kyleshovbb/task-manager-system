@@ -1,14 +1,14 @@
-export interface CreateBoardRequest {
+interface Board {
   id: string;
   title: string;
-  columns: Column[];
+  columns: BoardColumn[];
 }
 
-export type UpdateBoardRequest = Omit<CreateBoardRequest, 'id'>;
+export type BoardRequest = Omit<Board, 'id'>;
 
-export type BoardResponse = Required<CreateBoardRequest>;
+export type BoardResponse = Board;
 
-export interface Column {
+export interface BoardColumn {
   order: number;
   title: string;
 }
