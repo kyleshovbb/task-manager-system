@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from './config/config.service';
+import { AuthModule } from './auth/auth.module';
 import { LoggerModule } from './logger/logger.module';
+import { ConfigService } from './config/config.service';
 
 @Module({
   providers: [ConfigService],
-  imports: [LoggerModule],
-  exports: [LoggerModule],
+  imports: [LoggerModule, AuthModule],
+  exports: [LoggerModule, AuthModule],
 })
 export class SharedModule {}
