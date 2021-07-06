@@ -1,0 +1,85 @@
+config:
+  target: 'http://localhost:4000'
+  phases:
+    - duration: 100
+      arrivalRate: 100
+
+before:
+  flow:
+    - log: 'Get auth token and create board'
+    - post:
+        url: '/login'
+        json:
+          login: 'admin'
+          password: 'admin'
+        capture:
+          - json: $.token
+            as: token
+
+    - post:
+        url: '/boards'
+        headers:
+          authorization: 'Bearer {{ token }}'
+        json:
+          title: 'test-title'
+          columns:
+            - order: 1
+              title: 'test-title-1'
+        capture:
+          - json: $.id
+            as: boardId
+
+scenarios:
+  - flow:
+      - log: 'Get all tasks'
+      - get:
+          url: '/boards/{{ boardId }}/tasks'
+          headers:
+            authorization: 'Bearer {{ token }}'
+
+  - flow:
+      - log: 'Task CURD'
+      - post:
+          url: '/boards/{{ boardId }}/tasks'
+          headers:
+            authorization: 'Bearer {{ token }}'
+          json:
+            title: 'test-title'
+            order: 1
+            userId:
+            boardId: '{{ boardId }}'
+            columnId:
+            description: 'test-description'
+          capture:
+            - json: $.id
+              as: taskId
+
+      - put:
+          url: '/boards/{{ boardId }}/tasks/{{ taskId }}'
+          headers:
+            authorization: 'Bearer {{ token }}'
+          json:
+            title: 'new-test-title'
+            order: 2
+            userId:
+            boardId: '{{ boardId }}'
+            columnId:
+            description: 'new-test-description'
+
+      - get:
+          url: '/boards/{{ boardId }}/tasks/{{ taskId }}'
+          headers:
+            authorization: 'Bearer {{ token }}'
+
+      - delete:
+          url: '/boards/{{ boardId }}/tasks/{{ taskId }}'
+          headers:
+            authorization: 'Bearer {{ token }}'
+
+after:
+  flow:
+    - log: 'Delete board'
+    - delete:
+        url: '/boards/{{ boardId }}'
+        headers:
+          authorization: 'Bearer {{ token }}'

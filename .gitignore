@@ -2,3 +2,5 @@ node_modules
 build
 logs
 database/data
+artillery/reports/*.html
+artillery/reports/*.json

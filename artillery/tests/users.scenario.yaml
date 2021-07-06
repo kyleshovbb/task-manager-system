@@ -1,0 +1,58 @@
+config:
+  target: 'http://localhost:4000'
+  phases:
+    - duration: 100
+      arrivalRate: 100
+
+before:
+  flow:
+    - log: 'Get auth token'
+    - post:
+        url: '/login'
+        json:
+          login: 'admin'
+          password: 'admin'
+        capture:
+          - json: $.token
+            as: token
+
+scenarios:
+  - flow:
+      - log: 'Get all users'
+      - get:
+          url: '/users'
+          headers:
+            authorization: 'Bearer {{ token }}'
+
+  - flow:
+      - log: 'User CURD'
+      - post:
+          url: '/users'
+          headers:
+            authorization: 'Bearer {{ token }}'
+          json:
+            name: 'load-test-name'
+            login: 'load-test-login{{$randomString()}}'
+            password: 'load-test-password'
+          capture:
+            - json: $.id
+              as: userId
+
+      - put:
+          url: '/users/{{ userId }}'
+          headers:
+            authorization: 'Bearer {{ token }}'
+          json:
+            name: 'new-load-test-name'
+            login: 'new-load-test-login{{$randomString()}}'
+            password: 'new-load-test-password'
+
+      - get:
+          url: '/users/{{ userId }}'
+          headers:
+            authorization: 'Bearer {{ token }}'
+
+      - delete:
+          url: '/users/{{ userId }}'
+          headers:
+            authorization: 'Bearer {{ token }}'
