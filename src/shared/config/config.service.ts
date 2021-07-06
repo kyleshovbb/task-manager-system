@@ -12,6 +12,8 @@ export class ConfigService {
 
   public PORT: number;
 
+  public USE_FASTIFY: boolean;
+
   public JWT_SECRET_KEY: string;
 
   public JWT_EXPIRATION: string;
@@ -32,6 +34,8 @@ export class ConfigService {
     this.NODE_ENV = process.env['NODE_ENV'] as string;
 
     this.PORT = Number(process.env['PORT']) || 4000;
+
+    this.USE_FASTIFY = process.env['USE_FASTIFY'] === 'true';
 
     this.JWT_SECRET_KEY = process.env['JWT_SECRET_KEY'] as string;
     this.JWT_EXPIRATION = process.env['JWT_EXPIRATION'] as string;
