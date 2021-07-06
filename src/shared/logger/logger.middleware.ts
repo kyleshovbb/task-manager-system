@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import morgan, { StreamOptions } from 'morgan';
-import { LoggerService } from './logger.services';
+import { LoggerService } from './logger.service';
 import {
   MorganMessagePart,
   TokenIndexer,

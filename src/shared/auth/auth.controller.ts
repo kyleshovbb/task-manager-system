@@ -1,51 +1,16 @@
-import {
-  Post,
-  Body,
-  Controller,
-  HttpStatus,
-  HttpException,
-} from '@nestjs/common';
-import { UsersService } from '../../users/users.service';
-import { AuthService } from './auth.services';
-import { AuthRequest, JwtPayload } from './interfaces/auth.interfaces';
+import { Post, Request, Controller, UseGuards } from '@nestjs/common';
+import { Request as ExpressRequest } from 'express';
+import { UserResponse } from '../../users/interfaces/user.interface';
+import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller()
 export class AuthController {
-  constructor(
-    private userService: UsersService,
-    private authService: AuthService
-  ) {}
+  constructor(private authService: AuthService) {}
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() body: AuthRequest) {
-    const user = await this.userService.findByLogin(body.login);
-
-    if (!user) {
-      throw new HttpException(
-        'The user is not yet registered',
-        HttpStatus.FORBIDDEN
-      );
-    }
-
-    const passwordMatch = this.authService.checkIfPasswordMatch(
-      body.password,
-      user.password
-    );
-
-    if (!passwordMatch) {
-      throw new HttpException(
-        'The password does not match',
-        HttpStatus.FORBIDDEN
-      );
-    }
-
-    const jwtPayload: JwtPayload = {
-      login: user.login,
-      userId: user.id,
-    };
-
-    const token = this.authService.createJwtToken(jwtPayload);
-
-    return { token };
+  async login(@Request() req: ExpressRequest) {
+    return this.authService.login(req.user as UserResponse);
   }
 }

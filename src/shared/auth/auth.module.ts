@@ -1,26 +1,33 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
-import { AuthService } from './auth.services';
+import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { AuthMiddleware } from './auth.middleware';
 import { ConfigService } from '../config/config.service';
 import { UsersModule } from '../../users/users.module';
+import { JwtStrategy } from './jwt.strategy';
+import { LocalStrategy } from './local.strategy';
+import { LocalAuthGuard } from './local-auth.guard';
+
+const config = new ConfigService();
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, ConfigService],
-  exports: [AuthService, ConfigService],
-  imports: [UsersModule],
+  providers: [
+    JwtStrategy,
+    LocalStrategy,
+    AuthService,
+    ConfigService,
+    LocalAuthGuard,
+  ],
+  exports: [AuthService],
+  imports: [
+    UsersModule,
+    PassportModule,
+    JwtModule.register({
+      secret: config.JWT_SECRET_KEY,
+      signOptions: { expiresIn: config.JWT_EXPIRATION },
+    }),
+  ],
 })
-export class AuthModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .exclude({ path: 'login', method: RequestMethod.POST })
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
-  }
-}
+export class AuthModule {}

@@ -8,12 +8,15 @@ import {
   Param,
   HttpStatus,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../shared/auth/jwt-auth.guard';
 import { UserRequest } from './interfaces/user.interface';
 
 import { UsersService } from './users.service';
 
 @Controller('users')
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private userService: UsersService) {}
 

@@ -5,7 +5,7 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { LoggerMiddleware } from './logger.middleware';
-import { LoggerService } from './logger.services';
+import { LoggerService } from './logger.service';
 
 @Module({
   exports: [LoggerService],

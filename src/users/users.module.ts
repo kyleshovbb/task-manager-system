@@ -5,12 +5,11 @@ import { UsersController } from './users.controller';
 import { TasksModule } from '../tasks/tasks.module';
 import { UserEntity } from './user.entity';
 import { ConfigService } from '../shared/config/config.service';
-import { AuthService } from '../shared/auth/auth.services';
 import { AdminService } from './admin.service';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, AdminService, ConfigService, AuthService],
+  providers: [UsersService, AdminService, ConfigService],
   exports: [UsersService],
   imports: [TasksModule, TypeOrmModule.forFeature([UserEntity])],
 })

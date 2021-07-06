@@ -8,12 +8,15 @@ import {
   Param,
   HttpStatus,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { BoardRequest } from './interfaces/board.interface';
 
 import { BoardsService } from './boards.service';
+import { JwtAuthGuard } from '../shared/auth/jwt-auth.guard';
 
 @Controller('boards')
+@UseGuards(JwtAuthGuard)
 export class BoardsController {
   constructor(private boardService: BoardsService) {}
 

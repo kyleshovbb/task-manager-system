@@ -8,12 +8,15 @@ import {
   Param,
   HttpStatus,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from '../shared/auth/jwt-auth.guard';
 import { TaskRequest } from './interfaces/task.interface';
 
 import { TasksService } from './tasks.service';
 
 @Controller('boards/:boardId/tasks')
+@UseGuards(JwtAuthGuard)
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 

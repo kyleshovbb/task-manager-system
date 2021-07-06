@@ -1,7 +1,7 @@
+import bcrypt from 'bcryptjs';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AuthService } from '../shared/auth/auth.services';
 import { TasksService } from '../tasks/tasks.service';
 import { UserRequest } from './interfaces/user.interface';
 import { UserEntity } from './user.entity';
@@ -9,7 +9,6 @@ import { UserEntity } from './user.entity';
 @Injectable()
 export class UsersService {
   constructor(
-    private authService: AuthService,
     private tasksService: TasksService,
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>
@@ -38,14 +37,14 @@ export class UsersService {
     const newUser = this.usersRepository.create();
     newUser.name = userData.name;
     newUser.login = userData.login;
-    newUser.password = this.authService.getHashedPassword(userData.password);
+    newUser.password = bcrypt.hashSync(userData.password, 8);
     return this.usersRepository.save(newUser);
   }
 
   async update(userId: string, userData: UserRequest) {
     const updatedUserDate = {
       ...userData,
-      password: this.authService.getHashedPassword(userData.password),
+      password: bcrypt.hashSync(userData.password, 8),
     };
     return this.usersRepository.update(userId, updatedUserDate);
   }
