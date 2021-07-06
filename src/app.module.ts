@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { BoardsModule } from './boards/boards.module';
 import { SharedModule } from './shared/shared.module';
+import { ConfigModule } from './shared/config/config.module';
 import { ConfigService } from './shared/config/config.service';
 import { UserEntity } from './users/user.entity';
 import { BoardEntity } from './boards/board.entity';
@@ -17,6 +18,7 @@ const config = new ConfigService();
     BoardsModule,
     TasksModule,
     SharedModule,
+    ConfigModule,
     TypeOrmModule.forRoot({
       type: config.DB_TYPE,
       host: config.DB_HOST,

@@ -13,13 +13,7 @@ const config = new ConfigService();
 
 @Module({
   controllers: [AuthController],
-  providers: [
-    JwtStrategy,
-    LocalStrategy,
-    AuthService,
-    ConfigService,
-    LocalAuthGuard,
-  ],
+  providers: [JwtStrategy, LocalStrategy, AuthService, LocalAuthGuard],
   exports: [AuthService],
   imports: [
     UsersModule,
