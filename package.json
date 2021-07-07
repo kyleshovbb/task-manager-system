@@ -17,8 +17,8 @@
     "build": "nest build",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
-    "artillery:json": "artillery run --output artillery/reports/report-fastify.json artillery/**/tasks.scenario.yaml",
-    "artillery:html": "artillery report --output artillery/reports/report-fastify.html artillery/reports/report-fastify.json"
+    "artillery:json": "artillery run --output artillery/reports/report-express.json artillery/**/tasks.scenario.yaml",
+    "artillery:html": "artillery report --output artillery/reports/report-express.html artillery/reports/report-express.json"
   },
   "keywords": [
     "rs",
