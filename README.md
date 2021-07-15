@@ -70,3 +70,29 @@ npm run lint
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+## Performance test
+
+For the performance test, all CRUD methods in the task module were tested.
+
+Performance reports:
+
+### [Express](https://rawcdn.githack.com/kyleshovbb/task-manager-system/6409ee55e19e71d06ff429259eeb50c74105a7aa/artillery/reports/report-express.html)
+
+|              |                            |                           |
+| ------------ | -------------------------- | ------------------------- |
+| Requests     | [total, rate, throughput]  | 7500, 7500, 7500          |
+| Duration     | [total, attack]            | 310s, 310s                |
+| Latencies    | [min, median, 95, 99, max] | 2ms, 4ms, 7ms, 10ms, 95ms |
+| Success      | [ratio]                    | 100.00%                   |
+| Status Codes | [code:count]               | 200:15056, 201:3778       |
+
+### [Fastify](https://rawcdn.githack.com/kyleshovbb/task-manager-system/6409ee55e19e71d06ff429259eeb50c74105a7aa/artillery/reports/report-fastify.html)
+
+|              |                            |                          |
+| ------------ | -------------------------- | ------------------------ |
+| Requests     | [total, rate, throughput]  | 7500, 7500, 7500         |
+| Duration     | [total, attack]            | 310s, 310s               |
+| Latencies    | [min, median, 95, 99, max] | 2ms, 4ms, 7ms, 9ms, 92ms |
+| Success      | [ratio]                    | 100.00%                  |
+| Status Codes | [code:count]               | 200:14960, 201:3730      |
